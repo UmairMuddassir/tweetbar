@@ -1,0 +1,37 @@
+{% extends 'layout.html' %}
+{% block title %}Login — TweetBar{% endblock %}
+{% block content %}
+<div class="tb-main" style="max-width:440px;">
+  <div class="text-center mb-4 mt-2">
+    <h1 class="page-title">Welcome back</h1>
+    <p class="page-sub">Sign in to your TweetBar account.</p>
+  </div>
+  <div class="form-card">
+    <form method="post" novalidate>
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <label class="form-label-tb" for="id_login_username"><i class="bi bi-person"></i> Username</label>
+        <input type="text" name="username" id="id_login_username"
+               class="form-control-custom" placeholder="Your username"
+               value="{{ request.POST.username|default:'' }}" autocomplete="username">
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label-tb" for="id_login_password"><i class="bi bi-lock"></i> Password</label>
+        <input type="password" name="password" id="id_login_password"
+               class="form-control-custom" placeholder="Your password" autocomplete="current-password">
+      </div>
+
+      <button type="submit" class="btn-tb w-100" style="padding:12px;font-size:0.95rem;border-radius:12px;justify-content:center;">
+        <i class="bi bi-box-arrow-in-right"></i> Sign In
+      </button>
+    </form>
+
+    <p class="text-center mt-4" style="color:var(--muted);font-size:0.875rem;">
+      Don't have an account?
+      <a href="{% url 'register' %}" style="color:var(--accent-l);font-weight:600;text-decoration:none;">Sign up free</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

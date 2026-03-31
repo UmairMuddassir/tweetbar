@@ -1,0 +1,91 @@
+{% extends 'layout.html' %}
+{% block title %}@{{ profile_user.username }} — TweetBar{% endblock %}
+{% block content %}
+<div class="tb-main">
+
+  <!-- Profile Header -->
+  <div class="profile-header">
+    <div class="d-flex gap-4 align-items-center flex-wrap">
+      <div class="avatar-lg">{{ profile_user.username|first|upper }}</div>
+      <div class="flex-grow-1">
+        <h1 style="font-size:1.5rem;font-weight:800;letter-spacing:-0.5px;">@{{ profile_user.username }}</h1>
+        {% if profile_user.get_full_name %}
+        <p style="color:var(--muted);font-size:0.9rem;margin-top:2px;">{{ profile_user.get_full_name }}</p>
+        {% endif %}
+        <p class="tweet-meta mt-1">
+          <i class="bi bi-calendar3"></i>
+          Joined {{ profile_user.date_joined|date:"F Y" }}
+        </p>
+      </div>
+      {% if user == profile_user %}
+      <a href="{% url 'tweet_create' %}" class="btn-tb">
+        <i class="bi bi-plus-lg"></i> New Tweet
+      </a>
+      {% endif %}
+    </div>
+
+    <div class="d-flex gap-4 mt-4">
+      <div class="stat-box">
+        <div class="stat-num">{{ tweet_count }}</div>
+        <div class="stat-label">Tweets</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">{{ total_likes }}</div>
+        <div class="stat-label">Likes Received</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tweets -->
+  <div class="page-header">
+    <h2 style="font-size:1.1rem;font-weight:700;color:var(--muted);">
+      {% if user == profile_user %}Your tweets{% else %}Tweets by @{{ profile_user.username }}{% endif %}
+    </h2>
+  </div>
+
+  {% if tweets %}
+    {% for tweet in tweets %}
+    <div class="tb-card">
+      <div class="d-flex gap-3 align-items-start">
+        <div class="avatar">{{ tweet.user.username|first|upper }}</div>
+        <div class="flex-grow-1 min-w-0">
+          <div class="d-flex align-items-center gap-2 flex-wrap">
+            <span class="tweet-username">@{{ tweet.user.username }}</span>
+            <span class="tweet-meta">· {{ tweet.created_at|date:"M j, Y" }}</span>
+          </div>
+          <p class="mt-2 mb-0" style="color:#e2e8f0;line-height:1.65;word-break:break-word;">{{ tweet.text }}</p>
+          {% if tweet.photo %}
+          <img src="{{ tweet.photo.url }}" alt="Tweet image" class="tweet-photo" loading="lazy">
+          {% endif %}
+          <div class="tb-actions">
+            {% if user.is_authenticated %}
+            <form method="post" action="{% url 'tweet_like' tweet.id %}">
+              {% csrf_token %}
+              <button type="submit" class="btn-like {% if tweet.id in liked_ids %}liked{% endif %}">
+                {% if tweet.id in liked_ids %}<i class="bi bi-heart-fill"></i>{% else %}<i class="bi bi-heart"></i>{% endif %}
+                {{ tweet.like_count }}
+              </button>
+            </form>
+            {% else %}
+            <span class="btn-like" style="cursor:default;"><i class="bi bi-heart"></i> {{ tweet.like_count }}</span>
+            {% endif %}
+            {% if user == tweet.user %}
+            <a href="{% url 'tweet_edit' tweet.id %}" class="btn-edit"><i class="bi bi-pencil-fill"></i> Edit</a>
+            <a href="{% url 'tweet_delete' tweet.id %}" class="btn-del"><i class="bi bi-trash3-fill"></i> Delete</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-icon"><i class="bi bi-chat-square"></i></div>
+    <div class="empty-title">No tweets yet</div>
+    {% if user == profile_user %}
+    <a href="{% url 'tweet_create' %}" class="btn-tb mt-3"><i class="bi bi-plus-lg"></i> Post your first tweet</a>
+    {% endif %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

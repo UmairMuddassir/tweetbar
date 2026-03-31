@@ -1,8 +1,47 @@
 {% extends 'layout.html' %}
-{% block title %}
-Chai aou Django - Home
-{% endblock %}
+{% block title %}TweetBar — Share Your Thoughts{% endblock %}
 {% block content %}
-    <h1 class="text-center mt-4" >Welcome to ChaiHeadQ</h1>
-    <p class="text-center">This is the home page.</p>
+<div class="tb-main">
+  <div class="hero">
+    <h1 class="hero-title">
+      Your voice,<br>
+      <span class="gradient-text">amplified.</span>
+    </h1>
+    <p class="hero-sub">
+      TweetBar is a minimal microblogging platform where you can share thoughts,
+      connect with others, and discover what's happening.
+    </p>
+    <div class="d-flex gap-3 justify-content-center flex-wrap">
+      <a href="{% url 'register' %}" class="btn-tb" style="padding:12px 32px;font-size:1rem;">
+        <i class="bi bi-rocket-takeoff-fill"></i> Get Started Free
+      </a>
+      <a href="{% url 'login' %}" class="btn-ghost" style="padding:12px 32px;font-size:1rem;">
+        <i class="bi bi-box-arrow-in-right"></i> Sign In
+      </a>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-item">
+        <div class="feature-icon">✍️</div>
+        <div class="feature-title">Share Freely</div>
+        <div class="feature-desc">Post your thoughts in up to 280 characters, with optional photos.</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">❤️</div>
+        <div class="feature-title">Like & React</div>
+        <div class="feature-desc">Show appreciation for posts you love with a single click.</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🔍</div>
+        <div class="feature-title">Search & Discover</div>
+        <div class="feature-desc">Find tweets and people using the built-in search.</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">👤</div>
+        <div class="feature-title">Your Profile</div>
+        <div class="feature-desc">See all your posts and stats in one beautiful place.</div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

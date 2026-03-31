@@ -1,0 +1,54 @@
+{% extends 'layout.html' %}
+{% block title %}Register — TweetBar{% endblock %}
+{% block content %}
+<div class="tb-main" style="max-width:480px;">
+  <div class="text-center mb-4 mt-2">
+    <h1 class="page-title">Create your account</h1>
+    <p class="page-sub">Join TweetBar and start sharing.</p>
+  </div>
+  <div class="form-card">
+    <form method="post" novalidate>
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <label class="form-label-tb" for="id_username"><i class="bi bi-person"></i> Username</label>
+        {{ form.username }}
+        {% if form.username.errors %}{% for e in form.username.errors %}<p class="form-error">{{ e }}</p>{% endfor %}{% endif %}
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label-tb" for="id_email"><i class="bi bi-envelope"></i> Email</label>
+        {{ form.email }}
+        {% if form.email.errors %}{% for e in form.email.errors %}<p class="form-error">{{ e }}</p>{% endfor %}{% endif %}
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label-tb" for="id_password1"><i class="bi bi-lock"></i> Password</label>
+        {{ form.password1 }}
+        {% if form.password1.errors %}{% for e in form.password1.errors %}<p class="form-error">{{ e }}</p>{% endfor %}{% endif %}
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label-tb" for="id_password2"><i class="bi bi-lock-fill"></i> Confirm Password</label>
+        {{ form.password2 }}
+        {% if form.password2.errors %}{% for e in form.password2.errors %}<p class="form-error">{{ e }}</p>{% endfor %}{% endif %}
+      </div>
+
+      {% if form.non_field_errors %}
+      <div class="mb-3">
+        {% for e in form.non_field_errors %}<p class="form-error">{{ e }}</p>{% endfor %}
+      </div>
+      {% endif %}
+
+      <button type="submit" class="btn-tb w-100" style="padding:12px;font-size:0.95rem;border-radius:12px;justify-content:center;">
+        <i class="bi bi-rocket-takeoff-fill"></i> Create Account
+      </button>
+    </form>
+
+    <p class="text-center mt-4" style="color:var(--muted);font-size:0.875rem;">
+      Already have an account?
+      <a href="{% url 'login' %}" style="color:var(--accent-l);font-weight:600;text-decoration:none;">Sign in</a>
+    </p>
+  </div>
+</div>
+{% endblock %}
