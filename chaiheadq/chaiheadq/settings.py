@@ -100,17 +100,3 @@ if not DEBUG:
         for origin in os.environ.get('CSRF_TRUSTED_ORIGINS', '').split(',')
         if origin.strip()
     ]
-```
-
----
-
-## File 2 — Edit `chaiheadq/requirements.txt`
-
-It already exists on GitHub. Click it → pencil icon → replace with:
-```
-django>=5.0
-gunicorn
-whitenoise
-dj-database-url
-psycopg2-binary
-Pillow
