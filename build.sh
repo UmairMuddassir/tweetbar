@@ -2,4 +2,4 @@
 set -o errexit
 cd chaiheadq
 pip install -r requirements.txt
-python manage.py migrate --fake-initial
+python manage.py migrate
